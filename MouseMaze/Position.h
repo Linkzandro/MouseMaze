@@ -7,7 +7,7 @@ private:
 
 public:
 	Position(int a, int b);
-	Position(int a,int b,Position* pos);
+	Position(Position* pos,int a,int b);
 	bool operator==(const Position& position) const;
 	Position* getNext();
 	void setNext(Position* nextPos);

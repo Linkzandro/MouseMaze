@@ -12,7 +12,7 @@ Position* Position::getNext() {
 	return next;
 }
 
-Position::Position(int a = 0, int b = 0,Position* pos) {
+Position::Position(Position* pos,int a = 0, int b = 0) {
 	x = a;
 	y = b;
 	next = pos;
