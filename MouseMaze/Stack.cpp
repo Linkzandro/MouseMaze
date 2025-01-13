@@ -17,13 +17,22 @@ Position* Stack::Top() {
 	return nullptr;
 }
 
-void Stack::Pop() {
+Position* Stack::Pop() {
 
 	if (!IsEmpty()) {
 		Position* temp = head;
 		head = head->getNext();
-		delete temp;
+		temp->setNext(nullptr);
+		return temp;
 
+	}
+}
+
+void Stack::DelTop() {
+	if (!IsEmpty()) {
+		Position* temp = head;
+		head = head->getNext();
+		delete temp;
 	}
 }
 
