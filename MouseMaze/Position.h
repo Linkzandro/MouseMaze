@@ -6,6 +6,7 @@ private:
 	Position* next;
 
 public:
+	Position();
 	Position(int a, int b);
 	Position(Position* pos,int a,int b);
 	bool operator==(const Position& position) const;

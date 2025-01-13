@@ -1,7 +1,12 @@
 #include "Position.h"
 
+Position::Position() {
+	x = 0;
+	y = 0;
+	next = nullptr;
+}
 
-Position::Position(int a=0,int b=0) {
+Position::Position(int a,int b) {
 	x = a;
 	y = b;
 	next = nullptr;

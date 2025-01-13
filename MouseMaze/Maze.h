@@ -10,20 +10,16 @@ class Maze
 public:
 	int getRow() const;
 	int getCol() const;
-	std::string* getMaze();
-	~Maze();
-	Maze(const string& arquivo);
-	
+	std::string* getMaze() const;
+	Maze(const std::string& filename);
 
 private:
-	friend ostream& operator<< (ostream&, const Maze&);
+	std::string* maze;
+	int rows, cols;
+	friend std::ostream& operator<< (std::ostream&, const Maze&);
 	bool isWalkable(int x, int y);
 	Stack* mazeStack;
 	Position currentPosition, exitPosition, firstPosition;
 	void pushCellToUnvisited(int row, int col);
-	
-
-	string* maze;
-	int rows, cols;
 };
 
