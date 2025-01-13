@@ -34,6 +34,7 @@ void Maze::pushCellToUnvisited(int row, int col) {
 
 Maze::Maze(const std::string& filename) {
     ifstream file(filename);
+
     if (!file) {
         cerr << "Erro ao abrir o arquivo." << endl;
         exit(1);
@@ -43,36 +44,52 @@ Maze::Maze(const std::string& filename) {
     rows = 0;
     cols = 0;
 
-    // Contar linhas e colunas
+    // Contar o número de linhas e colunas no arquivo
     while (getline(file, line)) {
-        if (rows > 0 && line.length() != cols) {
-            cout << "Erro: Linhas do labirinto possuem tamanhos diferentes." << endl;
+        if (rows > 0 && line.length() > cols) {
+            cerr << "Erro: Linha " << rows + 1 << " excede o tamanho permitido." << endl;
             file.close();
-            exit(1);
         }
-        cols = line.length();
+        if (line.length() > cols) {
+            cols = line.length();
+        }
         ++rows;
     }
 
     file.clear();
-    file.seekg(0, ios::beg);
+    file.seekg(0, ios::beg); // Retornar ao início do arquivo
 
-    maze = new string[rows];
-    mazeStack = new Stack();
-    for (int i = 0; i < rows; ++i) {
-        getline(file, maze[i]);
-        for (int j = 0; j < cols; ++j) {
-            if (maze[i][j] == 'm') {
+    maze = new string[rows + 2]; // Adiciona duas linhas para as paredes
+
+    // Preencher a primeira linha com paredes
+    maze[0] = string(cols + 2, '1');
+
+    for (int i = 1; i <= rows; ++i) {
+        getline(file, line);
+        if (line.length() < cols) {
+            line += string(cols - line.length(), '0'); // Preencher com zeros se necessário
+        }
+        line = "1" + line + "1"; // Adicionar paredes nas laterais
+        maze[i] = line;
+        for (int j = 0; j < line.length(); ++j) {
+            if (line[j] == 'm') {
                 firstPosition = Position(i, j);
             }
-            else if (maze[i][j] == 'e') {
+            else if (line[j] == 'e') {
                 exitPosition = Position(i, j);
             }
         }
     }
 
+    // Preencher a última linha com paredes
+    maze[rows + 1] = string(cols + 2, '1');
+
+    rows += 2;
+    cols += 2;
+
     file.close();
 }
+
 
 
 
