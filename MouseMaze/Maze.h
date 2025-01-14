@@ -23,5 +23,6 @@ private:
 	Position currentPosition, exitPosition, firstPosition;
 	void pushCellToUnvisited(int row, int col);
 	void markAsVisited(int x, int y);
+	void clrScreen() const;
 };
 

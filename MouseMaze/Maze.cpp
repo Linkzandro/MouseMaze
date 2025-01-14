@@ -4,14 +4,29 @@
 #include "Stack.h"
 #include <string>
 #include "Position.h"
+#include <chrono>
+#include <thread>
+#include <Windows.h>
+
 
 using namespace std;
+using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
+using std::chrono::system_clock;
+using namespace std::this_thread;
+
 
 int Maze::getRow() const{
     return rows;
 }
 int Maze::getCol() const{
     return cols;
+}
+
+
+void Maze::clrScreen() const
+{
+    COORD cursorPosition = { 0, 0 };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
 }
 
 bool Maze::isWalkable(int x, int y) {
@@ -97,10 +112,8 @@ Maze::Maze(const std::string& filename) {
 std::ostream& operator<< (std::ostream& out, const Maze& mazeobj) {
     for (int i = 0; i < mazeobj.getRow(); ++i) {
         for (int j = 0; j < mazeobj.getCol(); ++j) {
-            if (mazeobj.getMaze()[i][j] == '1') {
-                cout << "*";
-            }
-            else if (mazeobj.getMaze()[i][j] == '0') {
+            
+            if (mazeobj.getMaze()[i][j] == '0') {
                 cout << " ";
             }
             else {
@@ -127,10 +140,10 @@ void Maze::solveMaze() {
             markAsVisited(currentPosition.getX(), currentPosition.getY());
         }
 
-        pushCellToUnvisited(currentPosition.getX() + 1, currentPosition.getY());//direita
-        pushCellToUnvisited(currentPosition.getX() - 1, currentPosition.getY());//esquerda
-        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()-1);//baixo
-        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()+1);//cima
+        pushCellToUnvisited(currentPosition.getX() - 1, currentPosition.getY());
+        pushCellToUnvisited(currentPosition.getX() + 1, currentPosition.getY());
+        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()-1);
+        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()+1);
 
         if (mazeStack->IsEmpty()) {
             cerr << "Falha ao encontrar a saída" << endl;
@@ -139,6 +152,8 @@ void Maze::solveMaze() {
         else {
             currentPosition = mazeStack->Pop();
         }
+        sleep_for(700ms);
+        clrScreen();
     }
     cout << *this;
     cout << "Saida encontrada em: [" << currentPosition.getX() << "," << currentPosition.getY() << "]" << endl;
