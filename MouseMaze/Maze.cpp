@@ -140,10 +140,10 @@ void Maze::solveMaze() {
             markAsVisited(currentPosition.getX(), currentPosition.getY());
         }
 
-        pushCellToUnvisited(currentPosition.getX() + 1, currentPosition.getY());//direita
-        pushCellToUnvisited(currentPosition.getX() - 1, currentPosition.getY());//esquerda
-        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()-1);//baixo
-        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()+1);//cima
+        pushCellToUnvisited(currentPosition.getX() - 1, currentPosition.getY());
+        pushCellToUnvisited(currentPosition.getX() + 1, currentPosition.getY());
+        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()-1);
+        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()+1);
 
         if (mazeStack->IsEmpty()) {
             cerr << "Falha ao encontrar a saída" << endl;
