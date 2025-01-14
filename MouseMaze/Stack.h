@@ -1,5 +1,6 @@
 #pragma once
 #include "Position.h"
+
 class Stack
 {
 private:
@@ -7,13 +8,14 @@ private:
 
 public:
 	Stack();
-	~Stack();
 
 	bool IsEmpty();
 
 	Position* Top();
 
-	void Pop();
+	Position Pop();
+
+	void DelTop();
 
 	void Push(Position pos);
 	void Push(int x,int y);
