@@ -17,13 +17,15 @@ Position* Stack::Top() {
 	return nullptr;
 }
 
-Position* Stack::Pop() {
+Position Stack::Pop() {
 
 	if (!IsEmpty()) {
 		Position* temp = head;
 		head = head->getNext();
 		temp->setNext(nullptr);
-		return temp;
+		Position temp2 = *temp;
+		delete temp;
+		return temp2;
 
 	}
 }

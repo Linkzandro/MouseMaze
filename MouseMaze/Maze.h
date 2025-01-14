@@ -12,6 +12,7 @@ public:
 	int getCol() const;
 	std::string* getMaze() const;
 	Maze(const std::string& filename);
+	void solveMaze();
 
 private:
 	std::string* maze;
@@ -21,5 +22,6 @@ private:
 	Stack* mazeStack;
 	Position currentPosition, exitPosition, firstPosition;
 	void pushCellToUnvisited(int row, int col);
+	void markAsVisited(int x, int y);
 };
 

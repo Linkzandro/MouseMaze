@@ -18,6 +18,10 @@ bool Maze::isWalkable(int x, int y) {
     return maze[x][y] == '0' || maze[x][y] == 'e';
 }
 
+void Maze::markAsVisited(int x, int y) {
+    maze[x][y] = '.';
+}
+
 std::string* Maze::getMaze() const{
     return maze;
 }
@@ -34,7 +38,7 @@ void Maze::pushCellToUnvisited(int row, int col) {
 
 Maze::Maze(const std::string& filename) {
     ifstream file(filename);
-
+    mazeStack=new Stack();
     if (!file) {
         cerr << "Erro ao abrir o arquivo." << endl;
         exit(1);
@@ -90,9 +94,6 @@ Maze::Maze(const std::string& filename) {
     file.close();
 }
 
-
-
-
 std::ostream& operator<< (std::ostream& out, const Maze& mazeobj) {
     for (int i = 0; i < mazeobj.getRow(); ++i) {
         for (int j = 0; j < mazeobj.getCol(); ++j) {
@@ -111,4 +112,34 @@ std::ostream& operator<< (std::ostream& out, const Maze& mazeobj) {
     cout << endl;
 
     return out;
+}
+
+void Maze::solveMaze() {
+    int row, col;
+    currentPosition = firstPosition;
+
+    while (!(currentPosition == exitPosition)) {
+        row = currentPosition.getX();
+        col = currentPosition.getY();
+        cout << *this;
+
+        if (!(currentPosition == firstPosition) && !(currentPosition==exitPosition)) {
+            markAsVisited(currentPosition.getX(), currentPosition.getY());
+        }
+
+        pushCellToUnvisited(currentPosition.getX() + 1, currentPosition.getY());//direita
+        pushCellToUnvisited(currentPosition.getX() - 1, currentPosition.getY());//esquerda
+        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()-1);//baixo
+        pushCellToUnvisited(currentPosition.getX(), currentPosition.getY()+1);//cima
+
+        if (mazeStack->IsEmpty()) {
+            cerr << "Falha ao encontrar a saída" << endl;
+            return;
+        }
+        else {
+            currentPosition = mazeStack->Pop();
+        }
+    }
+    cout << *this;
+    cout << "Saida encontrada em: [" << currentPosition.getX() << "," << currentPosition.getY() << "]" << endl;
 }

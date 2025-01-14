@@ -13,7 +13,7 @@ public:
 
 	Position* Top();
 
-	Position* Pop();
+	Position Pop();
 
 	void DelTop();
 

@@ -10,8 +10,7 @@ int main(int argc, char* argv[])
     string arquivo = "lab.txt";
     Maze maze(arquivo);
 
-    cout << maze;
+    maze.solveMaze();
 
-    cout << "Olá Mundo!!";
     return 0;
 }
